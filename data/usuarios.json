@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "email": "admin@mail.com",
+        "password": "12345",
+        "rol": "admin"
+    },
+    {
+        "id": 2,
+        "email": "cliente@mail.com",
+        "password": "abc123",
+        "rol": "cliente"
+    },
+    {
+        "id": 3,
+        "email": "j_lazaro2@unisimon.edu.co",
+        "password": "$2b$12$nCQxiVD21HHY4y4bt/xdueZNRrdGrOakojtSBjAgVcX38q801xGdS",
+        "rol": "cliente"
+    },
+    {
+        "id": "1781920132",
+        "email": "r_acevedo1@unisimon.edu.co",
+        "password": "$2b$12$5.opQM20RSBQfqkiwHwJ2.lQtDm/os967uqtOa/NGHKcKuQgx8cAG",
+        "rol": "cliente"
+    }
+]

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+      <title>Login</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<body>
+    <h2>Iniciar Sesión</h2>
+
+<form id="formLogin">
+    <input type="email" id="email" placeholder="Correo" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
+    <button type="submit">Ingresar</button>
+</form>
+
+<p id="mensaje"></p>
+
+<p>
+    ¿No tienes cuenta?
+    <a href="/registrar">Registrar usuario</a>
+</p>
+
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

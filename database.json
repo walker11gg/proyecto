@@ -1,0 +1,10 @@
+{
+    "eventos": [
+        {
+            "cliente": "carlos",
+            "tipo": "fiesta",
+            "fecha": "2025-11-27",
+            "id": 1
+        }
+    ]
+}

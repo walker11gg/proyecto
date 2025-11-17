@@ -1,0 +1,13 @@
+[
+    {
+        "id_evento": "",
+        "id_usuario": "",
+        "nombre_evento": "",
+        "fecha": "",
+        "ubicacion": "",
+        "estado": "",
+        "detalles": "",
+        "cotizaciones": [],
+        "pagos": []
+    }
+]
