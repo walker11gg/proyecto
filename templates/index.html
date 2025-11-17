@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVENTOS ART - Iniciar Sesión</title>
+    <title>EVENTOS ART - Registro</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
             padding: 20px;
         }
         
-        .login-container {
+        .register-container {
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -52,7 +52,8 @@
         }
         
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="text"] {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #ddd;
@@ -62,7 +63,8 @@
         }
         
         input[type="email"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        input[type="text"]:focus {
             border-color: #4a90e2;
             outline: none;
         }
@@ -78,7 +80,7 @@
             transform: scale(1.2);
         }
         
-        .btn-login {
+        .btn-register {
             background-color: #4a90e2;
             color: white;
             border: none;
@@ -92,7 +94,7 @@
             margin-bottom: 20px;
         }
         
-        .btn-login:hover {
+        .btn-register:hover {
             background-color: #3a7bc8;
         }
         
@@ -115,7 +117,7 @@
             font-size: 14px;
         }
         
-        .btn-register {
+        .btn-login {
             background-color: transparent;
             color: #4a90e2;
             border: 2px solid #4a90e2;
@@ -128,7 +130,7 @@
             transition: all 0.3s;
         }
         
-        .btn-register:hover {
+        .btn-login:hover {
             background-color: #4a90e2;
             color: white;
         }
@@ -152,78 +154,131 @@
             color: #c62828;
             border: 1px solid #ffcdd2;
         }
+        
+        .password-requirements {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="register-container">
         <div class="logo">EVENTOS ART</div>
         
-        <form id="formLogin">
+        <form id="formRegistro">
             <div class="form-group">
-                <label for="email">Correo:</label>
-                <input type="email" id="email" placeholder="Ingresa tu correo electrónico" required>
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre completo" required>
             </div>
             
             <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+                <label for="email_reg">Correo:</label>
+                <input type="email" id="email_reg" placeholder="Ingresa tu correo electrónico" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pass_reg">Contraseña:</label>
+                <input type="password" id="pass_reg" placeholder="Crea una contraseña segura" required>
+                <div class="password-requirements">Mínimo 8 caracteres, incluir mayúsculas, minúsculas y números</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_pass">Confirmar contraseña:</label>
+                <input type="password" id="confirm_pass" placeholder="Repite tu contraseña" required>
             </div>
             
             <div class="checkbox-group">
-                <input type="checkbox" id="remember">
-                <label for="remember">Iniciar Sesión</label>
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Acepto los términos y condiciones</label>
             </div>
             
-            <button type="submit" class="btn-login">Iniciar Sesión</button>
+            <button type="submit" class="btn-register">Crear Cuenta</button>
             
             <div class="divider">
                 <span>o</span>
             </div>
             
-            <button type="button" class="btn-register" onclick="window.location.href='/registrar'">Registrarme Aquí</button>
+            <button type="button" class="btn-login" onclick="window.location.href='/'">Iniciar Sesión</button>
             
-            <div id="mensaje" class="message"></div>
+            <div id="mensaje_reg" class="message"></div>
         </form>
     </div>
 
     <script>
-        document.getElementById("formLogin").addEventListener("submit", async function (e) {
+        document.getElementById("formRegistro").addEventListener("submit", async function(e){
             e.preventDefault();
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const mensaje = document.getElementById("mensaje");
+            const nombre = document.getElementById("nombre").value;
+            const email = document.getElementById("email_reg").value;
+            const password = document.getElementById("pass_reg").value;
+            const confirmPassword = document.getElementById("confirm_pass").value;
+            const mensaje = document.getElementById("mensaje_reg");
 
-            mensaje.textContent = "Verificando credenciales...";
+            // Validaciones básicas
+            if (password !== confirmPassword) {
+                mensaje.textContent = "Las contraseñas no coinciden";
+                mensaje.className = "message error";
+                mensaje.style.display = "block";
+                return;
+            }
+
+            if (password.length < 8) {
+                mensaje.textContent = "La contraseña debe tener al menos 8 caracteres";
+                mensaje.className = "message error";
+                mensaje.style.display = "block";
+                return;
+            }
+
+            mensaje.textContent = "Registrando...";
             mensaje.className = "message";
             mensaje.style.display = "block";
 
             try {
-                const respuesta = await fetch("/api/login", {
+                const resp = await fetch("/api/registrar", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ email, password })
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ 
+                        email, 
+                        password,
+                        nombre 
+                    })
                 });
 
-                const data = await respuesta.json();
+                const data = await resp.json();
 
                 if (data.success) {
-                    mensaje.textContent = "Bienvenido (" + data.rol + ")";
+                    mensaje.style.color = "green";
+                    mensaje.textContent = data.message || "¡Registro exitoso!";
                     mensaje.className = "message success";
                     
-                    // Redirigir después de un breve tiempo
+                    // Redirigir después de registro exitoso
                     setTimeout(() => {
                         window.location.href = "/";
-                    }, 1500);
+                    }, 2000);
                 } else {
-                    mensaje.textContent = data.mensaje || "Error al iniciar sesión";
+                    mensaje.textContent = data.message || "Error en el registro";
                     mensaje.className = "message error";
                 }
             } catch (error) {
                 mensaje.textContent = "Error de conexión. Intenta nuevamente.";
                 mensaje.className = "message error";
+            }
+        });
+
+        // Validación en tiempo real de confirmación de contraseña
+        document.getElementById('confirm_pass').addEventListener('input', function() {
+            const password = document.getElementById('pass_reg').value;
+            const confirmPassword = this.value;
+            const mensaje = document.getElementById('mensaje_reg');
+            
+            if (confirmPassword && password !== confirmPassword) {
+                mensaje.textContent = "Las contraseñas no coinciden";
+                mensaje.className = "message error";
+                mensaje.style.display = "block";
+            } else if (confirmPassword && password === confirmPassword) {
+                mensaje.style.display = "none";
             }
         });
     </script>
